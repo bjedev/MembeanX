@@ -6,10 +6,7 @@ export default function Document() {
 
     useEffect(() => {
         const theme = localStorage.getItem('theme');
-        console.log(theme)
     }, []);
-
-    console.log(theme)
 
     return (
         <Html lang="en">

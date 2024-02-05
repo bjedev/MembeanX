@@ -56,6 +56,7 @@ export default async function handler(req, res) {
     }
 
     res.status(200).json({
-        token: loginResult.headers.get('set-cookie').split("_new_membean_session_id=")[1].split(";")[0],
+        session_id: loginResult.headers.get('set-cookie').split("_new_membean_session_id=")[1].split(";")[0],
+        auth_token: loginResult.headers.get('set-cookie').split("auth_token=")[1].split(";")[0]
     });
 }

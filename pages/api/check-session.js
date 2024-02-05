@@ -4,9 +4,20 @@ export default async function handler(req, res) {
         return;
     }
 
-    const {token} = req.body;
+    const {session_id} = req.body;
 
-    if (token) {
+    const validSession = await fetch("https://membean.com/graphql.json", {
+        method: "POST",
+        headers: {
+            'Cookie': `domain=membean.com; _new_membean_session_id=${session_id}`,
+            "Content-Type": "application/json"
+        },
+    }).then(async (res) => {
+        const data = await res.json();
+        return !data.error;
+    })
+
+    if (validSession) {
         res.status(200).json({message: 'Session is valid'});
     } else {
         res.status(401).json({message: 'Session is invalid'});

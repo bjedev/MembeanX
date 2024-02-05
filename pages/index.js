@@ -10,7 +10,6 @@ export default function Login() {
     const token = localStorage.getItem('token');
 
     if (token && token !== 'undefined') {
-      console.log('token')
       fetch('api/check-session', {
         method: 'POST',
         headers: {
@@ -35,7 +34,8 @@ export default function Login() {
       body: JSON.stringify({username, password}),
     });
     const data = await response.json();
-    localStorage.setItem('token', data.token);
+    localStorage.setItem('session_id', data.session_id);
+    localStorage.setItem('auth_token', data.auth_token);
     if (response.status === 200) {
       router.push('/dashboard');
     }

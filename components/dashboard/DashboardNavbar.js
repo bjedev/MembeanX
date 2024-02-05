@@ -46,8 +46,6 @@ export default function DashboardNavbar({userData}) {
     );
     const themeIndex = useState(themes.indexOf(theme))[0];
 
-    console.log(themeIndex)
-
     return (
         <div className={"p-3 fixed w-full"}>
             <div className="navbar bg-base-200 rounded-xl shadow-xl">
