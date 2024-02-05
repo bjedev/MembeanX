@@ -1,5 +1,6 @@
 import {identifyMembeanPageType} from "@/utils/page-identifier";
 import parseWordPage from "@/parsers/word-page-parser";
+import {parseMultipleChoice} from "@/parsers/multiple-choice-parser";
 
 export default async function handler(req, res) {
     const {session_id, auth_token, blockState} = req.body;
@@ -14,18 +15,28 @@ export default async function handler(req, res) {
         const text = await res.text()
         const type = identifyMembeanPageType(text)
 
+        let data = undefined;
+
         switch (type) {
             case 'MULTIPLE_CHOICE':
-                return {
-                    type: 'MULTIPLE_CHOICE',
-                    barrier: text.split('barrier" type="hidden" value="')[1].split('"')[0]
-                }
+                data = parseMultipleChoice(text)
+                break;
             case 'LEARN_WORD_NEW':
-                return {type: type, data: parseWordPage(text)}
-            case 'SESSION_EXPIRED':
-                return { type: 'SESSION_EXPIRED' }
-            default:
-                console.log(type)
+                data = parseWordPage(text)
+                break;
+        }
+
+        if (type === "SESSION_EXPIRED") {
+            return {
+                type: type,
+            }
+        }
+
+        return {
+            type: type,
+            data: data,
+            barrier: text.split('barrier" type="hidden" value="')[1].split('"')[0],
+            advance: blockState.advance
         }
     })
 

@@ -3,11 +3,10 @@ import Loader from "@/components/Loader";
 import {useRouter} from "next/router";
 
 export default function LearnWordBlock({ blockState }) {
-    console.log(blockState)
     const router = useRouter()
 
     const {isLoading, error, data} = useQuery({
-        queryKey: ['fetch-multiple-choice', blockState.blockState.barrier],
+        queryKey: ['fetch-learn-word', blockState.blockState.barrier],
         queryFn: async () => {
             const response = await fetch('/api/training/current-state', {
                 method: 'POST',

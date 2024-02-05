@@ -18,8 +18,6 @@ export default function MainTrainingBlock() {
 
     if (blockState.blockState === undefined) return <Loader />;
 
-    console.log(blockState.blockState)
-
     switch (blockState.blockState.type) {
         case 'WORD_SPELL':
             return <div>Word spell</div>

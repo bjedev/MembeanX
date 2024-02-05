@@ -31,7 +31,6 @@ export default function DashboardIndex() {
             }).then((res) => res.json())
 
             // Fetch user totals
-
             return fetch('api/full-user-stats', {
                 method: 'GET',
                 headers: {
@@ -76,8 +75,6 @@ export default function DashboardIndex() {
         if (newSession.status === 200) {
             const {success, type, initialState} = await newSession.json();
 
-            console.log(success, type, initialState)
-
             toast.success(type === "ALREADY_BEGUN" && success === true ? 'Continuing your existing session!' : 'Started a new session!',
                 {
                     style: {
@@ -92,8 +89,6 @@ export default function DashboardIndex() {
                 router.push('/training/block');
             }
         }
-
-        return Promise.resolve(undefined);
     }
 
     return (
