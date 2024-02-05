@@ -2,7 +2,7 @@ import {useQuery} from "@tanstack/react-query";
 import Loader from "@/components/Loader";
 import {useRouter} from "next/router";
 
-export default function MultipleChoiceBlock({ blockState }) {
+export default function MultipleChoiceBlock({blockState}) {
     const router = useRouter()
 
     const {isLoading, error, data} = useQuery({
@@ -20,7 +20,7 @@ export default function MultipleChoiceBlock({ blockState }) {
                 }),
             })
 
-            const { type, data, barrier, advance } = await response.json()
+            const {type, data, barrier, advance} = await response.json()
 
             if (type === "SESSION_EXPIRED") {
                 router.push("/dashboard")
@@ -36,7 +36,7 @@ export default function MultipleChoiceBlock({ blockState }) {
         }
     })
 
-    if (isLoading) return <Loader />
+    if (isLoading) return <Loader/>
 
     return <div>{data.barrier}</div>
 }

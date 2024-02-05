@@ -1,12 +1,12 @@
 export function decryptAnswer(encryptedAnswer) {
     const data = decodeStr(encryptedAnswer);
     const data1 = data.substr(10);
-    return  data1.substr(0, data1.length - 12);
+    return data1.substr(0, data1.length - 12);
 }
 
 const B4 = {
     _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-    decode: function(j) {
+    decode: function (j) {
         var m = "";
         var d, b, g;
         var v, c, l, k;
@@ -31,7 +31,7 @@ const B4 = {
         m = B4._utf8_decode(m);
         return m
     },
-    _utf8_decode: function(c) {
+    _utf8_decode: function (c) {
         var a = "";
         var d = 0;
         let c1;

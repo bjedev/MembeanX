@@ -4,6 +4,7 @@ import {useRouter} from "next/router";
 export default function DashboardNavbar({userData}) {
     const alertsModal = useRef(null);
     const mbxModal = useRef(null);
+    const customThemeModal = useRef(null);
     const router = useRouter();
 
     // Theme picker
@@ -61,7 +62,7 @@ export default function DashboardNavbar({userData}) {
                     {/* Theme Picker */}
 
                     <div className="dropdown">
-                        <div tabIndex={themeIndex} role="button" className="btn m-1">
+                        <div tabIndex={themeIndex} role="button" className="btn m-1 btn-secondary">
                             Theme
                             <svg width="12px" height="12px" className="h-2 w-2 fill-current opacity-60 inline-block"
                                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048">
@@ -72,6 +73,13 @@ export default function DashboardNavbar({userData}) {
                             localStorage.setItem("theme", e.target.value)
                             setTheme(e.target.value)
                         }} className="dropdown-content z-[1] p-2 shadow-2xl bg-base-300 rounded-box w-52">
+                            {/*<li>*/}
+                            {/*    <button type="radio"*/}
+                            {/*            name="theme-dropdown"*/}
+                            {/*            className="theme-controller btn btn-sm btn-block btn-ghost justify-start bg-primary"*/}
+                            {/*            onClick={() => customThemeModal.current.showModal()}*/}
+                            {/*    >Custom</button>*/}
+                            {/*</li>*/}
                             {themes.map((theme, index) => (
                                     <li key={index}>
                                         <input type="radio" name="theme-dropdown"
@@ -83,6 +91,18 @@ export default function DashboardNavbar({userData}) {
                             )}
                         </ul>
                     </div>
+
+                    {/* Custom theme modal */}
+
+                    <dialog ref={customThemeModal} className="modal">
+                        <div className="modal-box">
+                            <h3 className="font-bold text-lg">Custom Theme Builder</h3>
+                            <p className="py-4">kys xd</p>
+                        </div>
+                        <form method="dialog" className="modal-backdrop">
+                            <button>close</button>
+                        </form>
+                    </dialog>
 
 
                     {/* Alerts button */}
