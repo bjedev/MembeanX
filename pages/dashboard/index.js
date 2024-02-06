@@ -6,6 +6,7 @@ import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import {useState} from "react";
 import toast from "react-hot-toast";
 import {useBlockStateStore} from "@/state/basic-state";
+import Meta from "@/components/MetaComponent";
 
 export default function DashboardIndex() {
     const router = useRouter();
@@ -94,12 +95,14 @@ export default function DashboardIndex() {
     return (
         <>
             <DashboardNavbar userData={data}/>
+            <Meta title="Dashboard"/>
             <div className="items-center justify-center min-h-screen grid">
                 <div className="flex items-center justify-center space-x-10">
-                    <select className="select select-accent w-full max-w-xs" defaultValue={"Session Length..."} onChange={(e) => {
-                        const minuteType = e.target.value.split(' ')[0];
-                        setSelectedMinutes(minuteType)
-                    }}>
+                    <select className="select select-accent w-full max-w-xs" defaultValue={"Session Length..."}
+                            onChange={(e) => {
+                                const minuteType = e.target.value.split(' ')[0];
+                                setSelectedMinutes(minuteType)
+                            }}>
                         <option disabled>Session Length...</option>
                         <option>5 Minutes</option>
                         <option>10 Minutes</option>
@@ -111,8 +114,9 @@ export default function DashboardIndex() {
                         <option>45 Minutes</option>
                         <option>60 Minutes</option>
                     </select>
-                    <button className={"btn btn-primary"} onClick={async () => await startTrainingSession()}>Start
-                        Session
+                    <button className={"btn btn-primary"}
+                            onClick={async () => await startTrainingSession()}>
+                        Start Session
                     </button>
                 </div>
                 <DashboardTotalsComponent userData={data}/>
