@@ -4,6 +4,7 @@ import {useEffect} from "react";
 import Loader from "@/components/Loader";
 import MultipleChoiceBlock from "@/components/training/blocks/MultipleChoiceBlock";
 import LearnWordBlock from "@/components/training/blocks/LearnWordBlock";
+import Meta from "@/components/MetaComponent";
 
 export default function MainTrainingBlock() {
     const blockState = useBlockStateStore();
@@ -17,18 +18,32 @@ export default function MainTrainingBlock() {
 
     if (blockState.blockState === undefined) return <Loader/>;
 
-    const block
+    let usedBlock = undefined;
 
     switch (blockState.blockState.type) {
         case 'WORD_SPELL':
-            return <div>Word spell</div>
+            usedBlock = <div>Word spell</div>
+            break
         case 'LEARN_WORD_OLD':
-            return <LearnWordBlock blockState={blockState}/>
+            usedBlock = <LearnWordBlock blockState={blockState}/>
+            break
         case 'LEARN_WORD_NEW':
-            return <LearnWordBlock blockState={blockState}/>
+            usedBlock = <LearnWordBlock blockState={blockState}/>
+            break
         case 'MULTIPLE_CHOICE':
-            return <MultipleChoiceBlock blockState={blockState}/>
+            usedBlock = <MultipleChoiceBlock blockState={blockState}/>
+            break
         default:
-            return <div>Unknown {blockState.blockState.type}</div>
+            usedBlock = <div>Unknown {blockState.blockState.type}</div>
+            break
     }
+
+    return (
+        <>
+            <Meta title="Training"/>
+            <div className="h-screen flex items-center justify-center">
+                {usedBlock}
+            </div>
+        </>
+    )
 }

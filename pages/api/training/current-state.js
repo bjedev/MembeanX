@@ -1,6 +1,7 @@
 import {identifyMembeanPageType} from "@/utils/page-identifier";
 import parseWordPage from "@/parsers/word-page-parser";
 import {parseMultipleChoice} from "@/parsers/multiple-choice-parser";
+import parseTakeABreakPage from "@/parsers/take-a-break-parser";
 
 export default async function handler(req, res) {
     const {session_id, auth_token, blockState} = req.body;
@@ -24,6 +25,8 @@ export default async function handler(req, res) {
             case 'LEARN_WORD_NEW':
                 data = parseWordPage(text)
                 break;
+            case 'SESSION_GRACEFULLY_COMPLETED':
+                data = parseTakeABreakPage(text)
         }
 
         if (type === "SESSION_EXPIRED") {

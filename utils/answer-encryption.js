@@ -1,7 +1,9 @@
 export function decryptAnswer(encryptedAnswer) {
     const data = decodeStr(encryptedAnswer);
     const data1 = data.substr(10);
-    return data1.substr(0, data1.length - 12);
+    const answer = data1.substr(0, data1.length - 10);
+    console.log(answer)
+    return answer
 }
 
 const B4 = {
