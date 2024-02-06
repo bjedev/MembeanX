@@ -3,23 +3,24 @@ import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {Toaster} from "react-hot-toast";
 import {useEffect, useState} from "react";
 import Meta from "@/components/MetaComponent";
+import {useThemeStore} from "@/state/basic-state";
 
 const queryClient = new QueryClient()
 
 export default function App({Component, pageProps}) {
-    const [theme, setTheme] = useState()
+    const themeStore = useThemeStore();
 
     useEffect(() => {
         const theme = localStorage.getItem('theme');
 
-        setTheme(theme || 'dark')
+        if (theme) themeStore.updateTheme(theme);
     }, []);
 
     return (
         <QueryClientProvider client={queryClient}>
             <Toaster/>
             <Meta/>
-            <div className={`theme-${theme}`}>
+            <div data-theme={themeStore.theme}>
                 <Component {...pageProps} />
             </div>
         </QueryClientProvider>

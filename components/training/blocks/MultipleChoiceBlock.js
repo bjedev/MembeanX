@@ -1,48 +1,13 @@
-import {useQuery} from "@tanstack/react-query";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
 import Loader from "@/components/Loader";
 import {useRouter} from "next/router";
 import {useState} from "react";
 import toast from "react-hot-toast";
 
-export default function MultipleChoiceBlock({blockState}) {
+export default function MultipleChoiceBlock({isLoading, data}) {
     const router = useRouter()
+    const queryClient = useQueryClient()
     const [helpMode, setHelpMode] = useState(false)
-
-    const {isLoading, error, data} = useQuery({
-        queryKey: ['fetch-multiple-choice', blockState.blockState.barrier],
-        queryFn: async () => {
-            const response = await fetch('/api/training/current-state', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    session_id: localStorage.getItem('session_id'),
-                    auth_token: localStorage.getItem('auth_token'),
-                    blockState: blockState.blockState,
-                }),
-            })
-
-            const {type, data, barrier, advance} = await response.json()
-
-            if (type === "SESSION_EXPIRED") {
-                return false
-            }
-
-            if (data === undefined) {
-                return false
-            }
-
-            return {
-                type: type,
-                data: data,
-                barrier: barrier,
-                advance: advance
-            }
-        }
-    })
-
-    if (isLoading) return <Loader/>
 
     if (data === false) router.push("/dashboard")
 
@@ -70,7 +35,8 @@ export default function MultipleChoiceBlock({blockState}) {
 
                             const {error, success} = await response.json()
                             if (success) {
-                                router.push('/training/block')
+                                setHelpMode(false)
+                                await queryClient.invalidateQueries('get-current-state')
                             } else {
                                 toast.error(error)
                             }

@@ -22,7 +22,7 @@ export function parseMultipleChoice(text) {
     }
 
     return {
-        question: question.replace(/(<([^>]+)>)/gi, ""),
+        question: he.decode(question.replace(/(<([^>]+)>)/gi, "")),
         answers: choices
     }
 }

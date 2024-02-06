@@ -1,15 +1,16 @@
 import {useRef, useState} from "react";
 import {useRouter} from "next/router";
+import {useThemeStore} from "@/state/basic-state";
 
 export default function DashboardNavbar({userData}) {
     const alertsModal = useRef(null);
+    const themeStore = useThemeStore();
     const mbxModal = useRef(null);
     const customThemeModal = useRef(null);
     const router = useRouter();
 
     // Theme picker
     const themes = [
-        "light",
         "dark",
         "cupcake",
         "bumblebee",
@@ -26,14 +27,10 @@ export default function DashboardNavbar({userData}) {
         "lofi",
         "pastel",
         "fantasy",
-        "wireframe",
-        "black",
         "luxury",
         "dracula",
-        "cmyk",
         "autumn",
         "business",
-        "acid",
         "lemonade",
         "night",
         "coffee",
@@ -42,10 +39,8 @@ export default function DashboardNavbar({userData}) {
         "nord",
         "sunset",
     ];
-    const [theme, setTheme] = useState(
-        localStorage.getItem("theme") ? localStorage.getItem("theme") : "coffee"
-    );
-    const themeIndex = useState(themes.indexOf(theme))[0];
+
+    const themeIndex = useState(themes.indexOf(themeStore.theme))[0];
 
     return (
         <div className={"p-3 fixed w-full"}>
@@ -62,7 +57,7 @@ export default function DashboardNavbar({userData}) {
                     {/* Theme Picker */}
 
                     <div className="dropdown">
-                        <div tabIndex={themeIndex} role="button" className="btn m-1 btn-secondary">
+                        <div tabIndex={themeIndex} role="button" className="btn m-1 btn-secondary text-secondary-content">
                             Theme
                             <svg width="12px" height="12px" className="h-2 w-2 fill-current opacity-60 inline-block"
                                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048">
@@ -70,8 +65,7 @@ export default function DashboardNavbar({userData}) {
                             </svg>
                         </div>
                         <ul tabIndex={themeIndex} onChange={(e) => {
-                            localStorage.setItem("theme", e.target.value)
-                            setTheme(e.target.value)
+                            themeStore.updateTheme(e.target.value)
                         }} className="dropdown-content z-[1] p-2 shadow-2xl bg-base-300 rounded-box w-52">
                             {/*<li>*/}
                             {/*    <button type="radio"*/}
@@ -83,7 +77,7 @@ export default function DashboardNavbar({userData}) {
                             {themes.map((theme, index) => (
                                     <li key={index}>
                                         <input type="radio" name="theme-dropdown"
-                                               defaultChecked={theme === localStorage.getItem("theme")}
+                                               defaultChecked={theme === themeStore.theme}
                                                className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
                                                aria-label={theme} value={theme}/>
                                     </li>
