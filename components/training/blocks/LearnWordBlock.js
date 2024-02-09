@@ -61,7 +61,7 @@ export default function LearnWordBlock({isLoading, data}) {
                                 }
                             }
                         }} className={`btn btn-${
-                            completedQuestion || helpMode ? question.correct ? 'success' : 'error' : 'primary'
+                            (completedQuestion || helpMode) ? question.correct ? 'success' : 'error' : 'primary'
                         }`} disabled={allowedAnswers.includes(index) || (completedQuestion && !question.correct)}>{question.text}</button>
                     )
                 })}

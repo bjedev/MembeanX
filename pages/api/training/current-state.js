@@ -6,6 +6,10 @@ import parseTakeABreakPage from "@/parsers/take-a-break-parser";
 export default async function handler(req, res) {
     const {session_id, auth_token, blockState} = req.body;
 
+    if (req.method !== 'POST') {
+        return res.status(405).json({error: "Method not allowed :1"})
+    }
+
     const userStateUrl = blockState.advance.replace("advance", "user_state")
 
     const state = await fetch(userStateUrl, {
