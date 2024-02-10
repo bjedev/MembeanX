@@ -1,3 +1,5 @@
+import {MEMBEAN_ACCESS_URL} from "@/utils/constants";
+
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         res.status(405).end('Method Not Allowed');
@@ -6,8 +8,9 @@ export default async function handler(req, res) {
 
     const {session_id} = req.body;
 
-    const validSession = await fetch("https://membean.com/graphql.json", {
+    const validSession = await fetch(`${MEMBEAN_ACCESS_URL}/graphql.json`, {
         method: "POST",
+        rejectUnauthorized: false,
         headers: {
             'Cookie': `domain=membean.com; _new_membean_session_id=${session_id}`,
             "Content-Type": "application/json"

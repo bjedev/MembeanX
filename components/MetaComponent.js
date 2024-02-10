@@ -3,7 +3,7 @@ import Head from 'next/head';
 export default function Meta({title}) {
     return (
         <Head>
-            <title>MembeanX{title ? ` — ${title}` : ''}</title>
+            <title>{`${title ? `MembeanX — ${title}` : ''}`}</title>
         </Head>
     )
 }
