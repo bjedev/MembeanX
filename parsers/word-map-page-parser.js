@@ -2,15 +2,9 @@ import {decryptAnswer} from "@/utils/answer-encryption";
 import he from "he";
 import {load} from 'cheerio';
 
-export function parseMultipleChoicePage(text) {
+export function parseWordMapPage(text) {
     const $ = load(text)
-    let question = $('#single-question > p').text()
-
-    if (!question) {
-        question = $('#single-question > h3').text()
-    }
-
-    question = question.trim().replace("Q:\n", "")
+    let question = $('#single-question > p').text().trim().replace("Q:\n", "")
 
     const encryptedAnswer = $('#google-analytics-mb').attr('data-value')
 
@@ -31,7 +25,8 @@ export function parseMultipleChoicePage(text) {
     console.log(answers.get())
 
     return {
-        question: question,
+        question: "Choose the word that fits best",
+        imageUrl: $('#constellation > img').attr('src'),
         answers: answers.get()
     }
 }

@@ -1,4 +1,5 @@
 import {identifyMembeanPageType} from "@/utils/page-identifier";
+import {MEMBEAN_ACCESS_URL} from "@/utils/constants";
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -15,7 +16,8 @@ export default async function handler(req, res) {
         return res.status(400).json({success: false, error: 'Minutes not provided'});
     }
 
-    const barriers = await fetch('https://membean.com/training_sessions/new', {
+    const barriers = await fetch(`${MEMBEAN_ACCESS_URL}/training_sessions/new`, {
+        rejectUnauthorized: false,
         headers: {
             'Cookie': `domain=membean.com; _new_membean_session_id=${session_id}; auth_token=${auth_token}`,
         },
@@ -51,8 +53,9 @@ export default async function handler(req, res) {
         return res.status(200).json({success: true, type: "ALREADY_BEGUN", initialState: barriers});
     }
 
-    const initialState = await fetch(`https://membean.com/training_sessions?t=${minutes}`, {
+    const initialState = await fetch(`${MEMBEAN_ACCESS_URL}/training_sessions?t=${minutes}`, {
         method: 'POST',
+        rejectUnauthorized: false,
         headers: {
             'Cookie': `domain=membean.com; _new_membean_session_id=${session_id}; auth_token=${auth_token}`,
             'Content-Type': 'application/x-www-form-urlencoded',

@@ -1,5 +1,6 @@
 import {makeEncryptedJsonRequestBody} from "@/utils/request";
 import {decrypt} from "@/utils/encryption";
+import {MEMBEAN_ACCESS_URL} from "@/utils/constants";
 
 export default async function handler(req, res) {
     if (req.method !== 'GET') {
@@ -167,8 +168,9 @@ export default async function handler(req, res) {
         query: allUserData
     });
 
-    const gqlResponse = await fetch('https://membean.com/graphql.json', {
+    const gqlResponse = await fetch(`${MEMBEAN_ACCESS_URL}/graphql.json`, {
         method: 'POST',
+        rejectUnauthorized: false,
         headers: {
             'Content-Type': 'application/json',
             'Cookie': `domain=membean.com; _new_membean_session_id=${sessionToken}`,

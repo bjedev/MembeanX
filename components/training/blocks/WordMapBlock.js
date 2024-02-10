@@ -1,17 +1,21 @@
-import {useQueryClient} from "@tanstack/react-query";
 import {useRouter} from "next/router";
-import {useState} from "react";
+import {useQueryClient} from "@tanstack/react-query";
+import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
 
-export default function MultipleChoiceBlock({data}) {
+export default function WordMapBlock({data}) {
     const router = useRouter()
     const queryClient = useQueryClient()
     const [helpMode, setHelpMode] = useState(false)
 
     return (
-        <div className="card bg-neutral text-neutral-content">
+        <div className="card bg-neutral card-side text-neutral-content">
+            {data.data.imageUrl && <figure><img src={data.data.imageUrl} alt="Context Image" className={"shadow-2xl"} /></figure>}
             <div className="card-body items-center text-center">
-                <h2 className="card-title">{data.data.question}</h2>
+                <h2 className="card-title">
+                    {data.data.question}
+                </h2>
+
                 {data.data.answers.map((answer, index) => {
                     return (
                         <button key={index} onClick={async () => {
@@ -44,10 +48,12 @@ export default function MultipleChoiceBlock({data}) {
                         }`}>{answer.text}</button>
                     )
                 })}
+
                 <div className="card-actions justify-end">
                     <button className="btn" onClick={() => {
                         setHelpMode(!helpMode)
-                    }}>Help</button>
+                    }}>Help
+                    </button>
                 </div>
             </div>
         </div>
