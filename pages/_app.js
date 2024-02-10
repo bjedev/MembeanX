@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import Meta from "@/components/MetaComponent";
 import {useThemeStore} from "@/state/basic-state";
 import {Analytics} from "@vercel/analytics/react";
+import {SpeedInsights} from "@vercel/speed-insights/react";
 
 const queryClient = new QueryClient()
 
@@ -18,13 +19,17 @@ export default function App({Component, pageProps}) {
     }, []);
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <Toaster/>
-            <Meta/>
-            <div data-theme={themeStore.theme}>
-                <Component {...pageProps} />
-            </div>
+        <>
+            <QueryClientProvider client={queryClient}>
+                <Toaster/>
+                <Meta/>
+                <div data-theme={themeStore.theme}>
+                    <Component {...pageProps} />
+                </div>
+            </QueryClientProvider>
+
             <Analytics />
-        </QueryClientProvider>
+            <SpeedInsights />
+        </>
     );
 }
