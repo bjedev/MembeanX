@@ -1,9 +1,10 @@
 export default async function handler(req, res) {
-    let { advance, answer, auth_token, barrier, session_id, type } = req.body;
+    let { advance, answer, auth_token, barrier, session_id, type, correct, study_type } = req.body;
 
     let id = advance.split('/')[4];
 
     let body = undefined;
+    let pass = true;
 
     switch (type) {
         case "spell": {
@@ -21,7 +22,7 @@ export default async function handler(req, res) {
 
             body = await spellResponse.text()
 
-            type = "finish_study"
+            type = study_type
             id = spellResponse.url.split('/')[4]
             barrier = body.split('barrier" type="hidden" value="')[1].split('"')[0]
 
@@ -29,6 +30,7 @@ export default async function handler(req, res) {
         }
         case "answer": {
             body = "answer"
+            pass = correct
             break;
         }
         case "close": {
@@ -56,7 +58,7 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Cookie': `domain=membean.com; _new_membean_session_id=${session_id}; auth_token=${auth_token};`
             },
-            body: `event=${type}!&pass=true&id=${id}&barrier=${barrier}&it=0&more_ts=ostentatious`
+            body: `event=${type}!&pass=${pass}&id=${id}&barrier=${barrier}&it=0&more_ts=ostentatious`
         })
 
         const data = await response.text()

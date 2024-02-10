@@ -1,5 +1,6 @@
 import {makeEncryptedJsonRequestBody} from "@/utils/request";
 import {decrypt} from "@/utils/encryption";
+import {MEMBEAN_ACCESS_URL} from "@/utils/constants";
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -19,8 +20,9 @@ export default async function handler(req, res) {
 
     const encryptedRequest = makeEncryptedJsonRequestBody(unencryptedData);
 
-    let {sessionCookie, csrfToken} = await fetch('https://membean.com/login', {
+    let {sessionCookie, csrfToken} = await fetch(`${MEMBEAN_ACCESS_URL}/login`, {
         method: 'GET',
+        rejectUnauthorized: false,
         headers: {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
             'X-Requested-With': 'XMLHttpRequest',
@@ -34,8 +36,9 @@ export default async function handler(req, res) {
     });
 
 
-    const loginResult = await fetch('https://membean.com/login', {
+    const loginResult = await fetch(`${MEMBEAN_ACCESS_URL}/login`, {
         method: 'POST',
+        rejectUnauthorized: false,
         headers: {
             'Cookie': `domain=membean.com; _new_membean_session_id=${sessionCookie}`,
             'X-Csrf-Token': csrfToken,

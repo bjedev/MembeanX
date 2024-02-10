@@ -1,10 +1,9 @@
-import {useQuery, useQueryClient} from "@tanstack/react-query";
-import Loader from "@/components/Loader";
+import {useQueryClient} from "@tanstack/react-query";
 import {useRouter} from "next/router";
 import toast from "react-hot-toast";
 import {useState} from "react";
 
-export default function LearnWordBlock({isLoading, data}) {
+export default function LearnWordBlock({data}) {
     const queryClient = useQueryClient()
     const router = useRouter()
     const [helpMode, setHelpMode] = useState(false)
@@ -15,7 +14,10 @@ export default function LearnWordBlock({isLoading, data}) {
         <div className="card bg-neutral text-neutral-content">
             <div className="max-w-2xl card-body items-center text-center">
                 <div className="indicator">
-                    {data.type.includes("NEW") ? <span className="indicator-item badge badge-primary">new</span> : null}
+                    {
+                        data.type === 'LEARN_WORD_NEW' ?
+                        <span className="indicator-item badge badge-success">New</span> :
+                        <span className="indicator-item badge badge-error">Restudy</span>}
                     <p className={'text-2xl'}>{data.data.word}</p>
                 </div>
                 <div className="divider divider-accent">Context</div>
@@ -46,7 +48,8 @@ export default function LearnWordBlock({isLoading, data}) {
                                         auth_token: localStorage.getItem('auth_token'),
                                         barrier: data.barrier,
                                         advance: data.advance,
-                                        type: 'spell'
+                                        type: 'spell',
+                                        study_type: data.type === 'LEARN_WORD_NEW' ? 'finish_study' : 'finish_restudy',
                                     }),
                                 })
 

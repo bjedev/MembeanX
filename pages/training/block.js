@@ -7,6 +7,8 @@ import LearnWordBlock from "@/components/training/blocks/LearnWordBlock";
 import Meta from "@/components/MetaComponent";
 import {useQuery} from "@tanstack/react-query";
 import CompletedSessionBlock from "@/components/training/blocks/CompletedSessionBlock";
+import TypeWordBlock from "@/components/training/blocks/TypeWordBlock";
+import WordMapBlock from "@/components/training/blocks/WordMapBlock";
 
 export default function MainTrainingBlock() {
     const blockState = useBlockStateStore();
@@ -18,7 +20,7 @@ export default function MainTrainingBlock() {
         }
     }, [blockState.blockState])
 
-    const {isLoading, error, data} = useQuery({
+    const {isFetching, error, data} = useQuery({
         queryKey: ['get-current-state'],
         retry: false,
         queryFn: async () => {
@@ -36,14 +38,6 @@ export default function MainTrainingBlock() {
 
             const {type, data, barrier, advance} = await response.json()
 
-            if (type === "SESSION_EXPIRED") {
-                return false
-            }
-
-            if (data === undefined) {
-                return false
-            }
-
             return {
                 type: type,
                 data: data,
@@ -53,9 +47,11 @@ export default function MainTrainingBlock() {
         }
     })
 
-    if (isLoading) return <Loader/>;
-    if (error) return (
+    // If Loading
+    if (isFetching) return <Loader/>;
 
+    // If the request fails, or the backend returns an error
+    if (error) return (
         <div className="h-screen flex items-center justify-center">
             <div className="card bg-neutral text-neutral-content">
                 <div className="card-body items-center text-center">
@@ -68,23 +64,47 @@ export default function MainTrainingBlock() {
         </div>
     );
 
+    // If the backend returns a session expired error
+    if (data.type === "SESSION_EXPIRED") {
+        return (
+            <div className="h-screen flex items-center justify-center">
+                <div className="card bg-neutral text-neutral-content">
+                    <div className="card-body items-center text-center">
+                        <h1 className="text-error text-5xl font-mono">Session Expired</h1>
+                        <p className="text-lg">Your session has expired, please start a new session</p>
+                        <button onClick={() => router.push('/dashboard')} className="btn btn-primary">Go to Dashboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     let usedBlock = undefined;
+
+    console.log(data)
 
     switch (data.type) {
         case 'WORD_SPELL':
             usedBlock = <div>Word spell</div>
             break
         case 'LEARN_WORD_OLD':
-            usedBlock = <LearnWordBlock isLoading={isLoading} data={data} />
+            usedBlock = <LearnWordBlock data={data}/>
             break
         case 'LEARN_WORD_NEW':
-            usedBlock = <LearnWordBlock isLoading={isLoading} data={data}/>
+            usedBlock = <LearnWordBlock data={data}/>
             break
         case 'MULTIPLE_CHOICE':
-            usedBlock = <MultipleChoiceBlock isLoading={isLoading} data={data} />
+            usedBlock = <MultipleChoiceBlock data={data}/>
             break
         case 'SESSION_GRACEFULLY_COMPLETED':
-            usedBlock = <CompletedSessionBlock isLoading={isLoading} data={data} />
+            usedBlock = <CompletedSessionBlock data={data}/>
+            break
+        case 'WORD_TYPE':
+            usedBlock = <TypeWordBlock data={data}/>
+            break
+        case 'WORD_MAP':
+            usedBlock = <WordMapBlock data={data}/>
             break
         default:
             usedBlock = <div>Unknown {data.type}</div>

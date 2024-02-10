@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 import toast from "react-hot-toast";
 
-export default function CompletedSessionBlock({ isLoading, data }) {
+export default function CompletedSessionBlock({data}) {
   const router = useRouter();
 
   return (

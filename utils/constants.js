@@ -1,0 +1,1 @@
+export const MEMBEAN_ACCESS_URL = "https://membean.com"
