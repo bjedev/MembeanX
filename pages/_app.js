@@ -23,6 +23,7 @@ export default function App({Component, pageProps}) {
             <div data-theme={themeStore.theme}>
                 <Component {...pageProps} />
             </div>
+            <Analytics />
         </QueryClientProvider>
     );
 }
