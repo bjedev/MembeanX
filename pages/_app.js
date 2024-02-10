@@ -4,6 +4,7 @@ import {Toaster} from "react-hot-toast";
 import {useEffect, useState} from "react";
 import Meta from "@/components/MetaComponent";
 import {useThemeStore} from "@/state/basic-state";
+import {Analytics} from "@vercel/analytics/react";
 
 const queryClient = new QueryClient()
 
