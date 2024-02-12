@@ -32,6 +32,13 @@ export default function MultipleChoiceBlock({data}) {
                             })
 
                             const {error, success} = await response.json()
+
+                            if (answer.correct) {
+                                toast.success('Correct!')
+                            } else {
+                                toast.error('Incorrect!')
+                            }
+
                             if (success) {
                                 setHelpMode(false)
                                 await queryClient.invalidateQueries('get-current-state')

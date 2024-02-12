@@ -19,7 +19,8 @@ export default function App({Component, pageProps}) {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <div className={"bg-success"} /> {/* This is required on each page to fix the buttons not coloring as success properly */}
+            <div className={"btn btn-success hidden"} /> {/* This is required on each page to fix the buttons not coloring as success properly */}
+            <div className={"btn btn-error hidden"} /> {/* This is required on each page to fix the buttons not coloring as success properly */}
             <Toaster/>
             <Meta/>
             <div data-theme={themeStore.theme}>
