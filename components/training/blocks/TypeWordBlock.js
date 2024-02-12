@@ -53,7 +53,8 @@ export default function TypeWordBlock({data}) {
 
     return (
         <div className="card bg-neutral card-side text-neutral-content">
-            {data.data.imageUrl && <figure><img src={data.data.imageUrl} alt="Context Image" className={"shadow-2xl"} /></figure>}
+            {data.data.imageUrl &&
+                <figure><img src={data.data.imageUrl} alt="Context Image" className={"shadow-2xl"}/></figure>}
             <div className="card-body items-center text-center">
                 <h2 className="card-title">
                     Hint: <em className={'font-mono bg-base-200 p-1 rounded'}>{data.data.hint}</em>
@@ -66,7 +67,8 @@ export default function TypeWordBlock({data}) {
                        maxLength={data.data.answer.length}
                        value={answerInput}
                        onChange={(e) => setAnswerInput(e.target.value)}
-                       autoCapitalize={"off"} autoComplete={"off"} autoCorrect={"off"} autoFocus={true} spellCheck={false} />
+                       autoCapitalize={"off"} autoComplete={"off"} autoCorrect={"off"} autoFocus={true}
+                       spellCheck={false}/>
 
                 <div className="card-actions justify-end">
                     <button className="btn" onClick={() => {

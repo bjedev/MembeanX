@@ -33,6 +33,11 @@ export default function MultipleChoiceBlock({data}) {
 
                             const {error, success} = await response.json()
                             if (success) {
+                                if (answer.correct) {
+                                    toast.success('Correct!')
+                                } else {
+                                    toast.error('Incorrect!')
+                                }
                                 setHelpMode(false)
                                 await queryClient.invalidateQueries('get-current-state')
                             } else {
@@ -47,7 +52,8 @@ export default function MultipleChoiceBlock({data}) {
                 <div className="card-actions justify-end">
                     <button className="btn" onClick={() => {
                         setHelpMode(!helpMode)
-                    }}>Help</button>
+                    }}>Help
+                    </button>
                 </div>
             </div>
         </div>

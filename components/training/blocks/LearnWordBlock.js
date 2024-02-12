@@ -16,8 +16,8 @@ export default function LearnWordBlock({data}) {
                 <div className="indicator">
                     {
                         data.type === 'LEARN_WORD_NEW' ?
-                        <span className="indicator-item badge badge-success">New</span> :
-                        <span className="indicator-item badge badge-error">Restudy</span>}
+                            <span className="indicator-item badge badge-success">New</span> :
+                            <span className="indicator-item badge badge-error">Restudy</span>}
                     <p className={'text-2xl'}>{data.data.word}</p>
                 </div>
                 <div className="divider divider-accent">Context</div>
@@ -65,7 +65,8 @@ export default function LearnWordBlock({data}) {
                             }
                         }} className={`btn btn-${
                             (completedQuestion || helpMode) ? question.correct ? 'success' : 'error' : 'primary'
-                        }`} disabled={allowedAnswers.includes(index) || (completedQuestion && !question.correct)}>{question.text}</button>
+                        }`}
+                                disabled={allowedAnswers.includes(index) || (completedQuestion && !question.correct)}>{question.text}</button>
                     )
                 })}
                 <div className="card-actions justify-end">

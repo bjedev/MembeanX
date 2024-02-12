@@ -82,12 +82,7 @@ export default function MainTrainingBlock() {
 
     let usedBlock = undefined;
 
-    console.log(data)
-
     switch (data.type) {
-        case 'WORD_SPELL':
-            usedBlock = <div>Word spell</div>
-            break
         case 'LEARN_WORD_OLD':
             usedBlock = <LearnWordBlock data={data}/>
             break
@@ -107,6 +102,7 @@ export default function MainTrainingBlock() {
             usedBlock = <WordMapBlock data={data}/>
             break
         default:
+            console.log(data)
             usedBlock = <div>Unknown {data.type}</div>
             break
     }

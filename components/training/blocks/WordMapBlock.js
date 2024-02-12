@@ -1,6 +1,6 @@
 import {useRouter} from "next/router";
 import {useQueryClient} from "@tanstack/react-query";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import toast from "react-hot-toast";
 
 export default function WordMapBlock({data}) {
@@ -10,7 +10,8 @@ export default function WordMapBlock({data}) {
 
     return (
         <div className="card bg-neutral card-side text-neutral-content">
-            {data.data.imageUrl && <figure><img src={data.data.imageUrl} alt="Context Image" className={"shadow-2xl"} /></figure>}
+            {data.data.imageUrl &&
+                <figure><img src={data.data.imageUrl} alt="Context Image" className={"shadow-2xl"}/></figure>}
             <div className="card-body items-center text-center">
                 <h2 className="card-title">
                     {data.data.question}

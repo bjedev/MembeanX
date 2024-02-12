@@ -1,5 +1,6 @@
 import {identifyMembeanPageType} from "@/utils/page-identifier";
 import {MEMBEAN_ACCESS_URL} from "@/utils/constants";
+import * as cheerio from "cheerio";
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -26,11 +27,11 @@ export default async function handler(req, res) {
         const text = await r.text();
 
         if (!text.includes('35 min."')) {
-            console.log(text)
+            const $ = cheerio.load(text);
 
             return {
-                advance: text.split('<form action="')[1].split('"')[0],
-                barrier: text.split('"barrier" type="hidden" value="')[1].split('"')[0],
+                advance: $('#trainer-nav > form').attr('action'),
+                barrier: $("input[name='barrier']").val(),
                 type: identifyMembeanPageType(text),
             }
         }
@@ -64,9 +65,11 @@ export default async function handler(req, res) {
     }).then(async (r) => {
         const text = await r.text();
 
+        const $ = cheerio.load(text);
+
         return {
-            advance: text.split('<form action="')[1].split('"')[0],
-            barrier: text.split('"barrier" type="hidden" value="')[1].split('"')[0],
+            advance: $('#trainer-nav > form').attr('action'),
+            barrier: $("input[name='barrier']").val(),
             type: identifyMembeanPageType(text),
         }
     });

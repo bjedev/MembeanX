@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-    let { advance, answer, auth_token, barrier, session_id, type, correct, study_type } = req.body;
+    let {advance, answer, auth_token, barrier, session_id, type, correct, study_type} = req.body;
 
     let id = advance.split('/')[4];
 
@@ -43,12 +43,12 @@ export default async function handler(req, res) {
                 },
                 body: `event=${type}!&id=${id}&barrier=${barrier}&it=0&more_ts=ostentatious`
             })
-            return res.status(200).json({ success: true })
+            return res.status(200).json({success: true})
         }
     }
 
     if (body === undefined) {
-        return res.status(500).json({ error: "Backend body error", success: false })
+        return res.status(500).json({error: "Backend body error", success: false})
     }
 
     try {
@@ -64,11 +64,11 @@ export default async function handler(req, res) {
         const data = await response.text()
 
         if (!data.includes("Faster than a speeding bullet, more powerful than a locomotive")) {
-            return res.status(500).json({ error: "Failed to advance", success: false })
+            return res.status(500).json({error: "Failed to advance", success: false})
         }
 
-        return res.status(200).json({ success: true })
+        return res.status(200).json({success: true})
     } catch (e) {
-        return res.status(500).json({ error: e.message, success: false })
+        return res.status(500).json({error: e.message, success: false})
     }
 }
