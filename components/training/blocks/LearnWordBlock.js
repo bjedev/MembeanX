@@ -26,13 +26,11 @@ export default function LearnWordBlock({data}) {
                 {data.data.questions.map((question, index) => {
                     return (
                         <button key={index} onClick={async () => {
-                            if (!helpMode) {
-                                if (question.correct) {
-                                    setCompletedQuestion(true)
-                                } else {
-                                    toast.error('Incorrect!')
-                                    setAllowedAnswers([...allowedAnswers, index])
-                                }
+                            if (question.correct) {
+                                setCompletedQuestion(true)
+                            } else {
+                                toast.error('Incorrect!')
+                                setAllowedAnswers([...allowedAnswers, index])
                             }
 
                             if (question.correct) {

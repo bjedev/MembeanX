@@ -52,11 +52,11 @@ export default function TypeWordBlock({data}) {
     }, [answerInput]);
 
     return (
-        <div className="card bg-neutral card-side text-neutral-content">
+        <div className="card bg-neutral card-side">
             {data.data.imageUrl && <figure><img src={data.data.imageUrl} alt="Context Image" className={"shadow-2xl"} /></figure>}
             <div className="card-body items-center text-center">
-                <h2 className="card-title">
-                    Hint: <em className={'font-mono bg-base-200 p-1 rounded'}>{data.data.hint}</em>
+                <h2 className="card-title text-neutral-content bg-secondary rounded p-1 text-secondary-content">
+                    Hint: <em className={'font-mono rounded'}>{data.data.hint}</em>
                 </h2>
 
                 {/* Answer Input */}

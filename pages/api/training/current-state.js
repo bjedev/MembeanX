@@ -4,6 +4,7 @@ import {parseMultipleChoicePage} from "@/parsers/multiple-choice-parser";
 import parseTakeABreakPage from "@/parsers/take-a-break-parser";
 import {parseWordTypePage} from "@/parsers/word-type-parser";
 import {parseWordMapPage} from "@/parsers/word-map-page-parser";
+import * as cheerio from "cheerio";
 
 export default async function handler(req, res) {
     const {session_id, auth_token, blockState} = req.body;
@@ -54,9 +55,12 @@ export default async function handler(req, res) {
             }
         }
 
+        const $ = cheerio.load(text)
+
         return {
             type: type,
             data: data,
+            time_left: $('#training-clock-stats').text().replace(/(\r\n|\n|\r)/gm," ").trim(),
             barrier: text.split('barrier" type="hidden" value="')[1].split('"')[0],
             advance: blockState.advance
         }

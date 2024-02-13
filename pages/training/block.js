@@ -1,6 +1,6 @@
 import {useBlockStateStore} from "@/state/basic-state";
 import {useRouter} from "next/router";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import Loader from "@/components/Loader";
 import MultipleChoiceBlock from "@/components/training/blocks/MultipleChoiceBlock";
 import LearnWordBlock from "@/components/training/blocks/LearnWordBlock";
@@ -12,6 +12,7 @@ import WordMapBlock from "@/components/training/blocks/WordMapBlock";
 
 export default function MainTrainingBlock() {
     const blockState = useBlockStateStore();
+    const [backupTimeLeft, setBackupTimeLeft] = useState('')
     const router = useRouter();
 
     useEffect(() => {
@@ -36,13 +37,20 @@ export default function MainTrainingBlock() {
                 }),
             })
 
-            const {type, data, barrier, advance} = await response.json()
+            const {type, data, barrier, advance, time_left} = await response.json()
+
+            if (time_left !== "") {
+                setBackupTimeLeft(time_left)
+            }
+
+            console.log("Backup Time Left:", backupTimeLeft, "\nTime Left:", time_left)
 
             return {
                 type: type,
                 data: data,
                 barrier: barrier,
-                advance: advance
+                advance: advance,
+                time_left: time_left === "" ? backupTimeLeft : time_left,
             }
         }
     })
@@ -82,8 +90,6 @@ export default function MainTrainingBlock() {
 
     let usedBlock = undefined;
 
-    console.log(data)
-
     switch (data.type) {
         case 'WORD_SPELL':
             usedBlock = <div>Word spell</div>
@@ -114,6 +120,10 @@ export default function MainTrainingBlock() {
     return (
         <>
             <Meta title="Training"/>
+            <div className={"flex items-center justify-center bg-primary rounded-b-2xl p-2 text-primary-content"}>
+                {data.time_left}
+            </div>
+
             <div className="h-screen flex items-center justify-center">
                 {usedBlock}
             </div>

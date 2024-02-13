@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 
     switch (type) {
         case "spell": {
-            const randomPageTime = Math.floor(Math.random() * 10000) + 1000;
+            const randomPageTime = Math.floor(Math.random() * (10000 - 5000 + 1)) + 5000
             console.log(randomPageTime)
 
             const spellResponse = await fetch(advance, {
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Cookie': `domain=membean.com; _new_membean_session_id=${session_id}; auth_token=${auth_token};`
                 },
-                body: `event=spell!&time-on-page=%7B%22time%22%3A${randomPageTime}%7D&id=${id}&barrier=${barrier}&it=1320000&more_ts=ostentatious&answer=${answer}`
+                body: `event=spell!&time-on-page=%7B%22time%22%3A${randomPageTime}%7D&id=${id}&barrier=${barrier}&it=1&more_ts=ostentatious&answer=${answer}`
             })
 
             body = await spellResponse.text()
