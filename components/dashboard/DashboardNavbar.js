@@ -154,7 +154,7 @@ export default function DashboardNavbar({userData}) {
                     <p className="">Thank you,</p>
                     <button onClick={() => {
                         router.push('https://github.com/bjedev')
-                    }} className="pl-5 font-mono text-accent">Fluyd
+                    }} className="pl-5 font-mono text-accent">BJEDev
                     </button>
                 </div>
                 <form method="dialog" className="modal-backdrop">
